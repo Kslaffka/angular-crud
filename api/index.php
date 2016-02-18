@@ -5,11 +5,11 @@ require 'vendor/autoload.php';
 $app = new \Slim\Slim();
 $app->get('/users', 'getUsers');
 $app->get('/users/:id', 'getUser');
-$app->post('/add_user', 'addUser');
+$app->post('/users/add', 'addUser');
 $app->put('/users/:id', 'updateUser');
 $app->delete('/users/:id', 'deleteUser');
-
 $app->get('/servers', 'getServers');
+$app->post('/servers/add', 'addServer');
 
 $app->run();
 
@@ -21,6 +21,26 @@ function getServers() {
 		$wines = $stmt->fetchAll(PDO::FETCH_OBJ);
 		$db = null;
 		echo json_encode($wines);
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+function addServer() {
+	$request = \Slim\Slim::getInstance()->request();
+	$server = json_decode($request->getBody());
+	$sql = "INSERT INTO servers (name, location, type, environment) VALUES (:name, :location, :type, :environment)";
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+		$stmt->bindParam("name", $server->name);
+		$stmt->bindParam("location", $server->first_name);
+		$stmt->bindParam("type", $server->type);
+		$stmt->bindParam("environment", $server->environment);
+		$stmt->execute();
+		$server->id = $db->lastInsertId();
+		$db = null;
+		echo json_encode($server); 
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
