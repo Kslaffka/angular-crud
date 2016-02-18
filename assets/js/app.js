@@ -16,13 +16,13 @@ function HeaderController($scope, $location)
   };
 }
 
-function ListCtrl($scope, $http) {
+function ListCtrl($scope, $http, $location) {
   $http.get('api/users').success(function(data) {
     $scope.users = data;
   });
 }
 
-function ListCtrlServers($scope, $http) {
+function ListCtrlServers($scope, $http, $location) {
   $http.get('api/servers').success(function(data) {
     $scope.servers = data;
   });
@@ -36,7 +36,7 @@ function AddCtrl($scope, $http, $location) {
 
     $http.post('api/users/add', user).success(function(){
       $scope.reset();
-      $scope.activePath = $location.path('/');
+      $scope.activePath = $location.path('/users');
     });
 
     $scope.reset = function() {
@@ -56,7 +56,7 @@ function AddCtrlServer($scope, $http, $location) {
 
     $http.post('api/servers/add', server).success(function(){
       $scope.reset();
-      $scope.activePath = $location.path('/');
+      $scope.activePath = $location.path('/servers');
     });
 
     $scope.reset = function() {
@@ -84,7 +84,6 @@ function EditCtrl($scope, $http, $location, $routeParams) {
   };
 
   $scope.delete = function(user) {
-    console.log(user);
 
     var deleteUser = confirm('Are you absolutely sure you want to delete?');
     if (deleteUser) {

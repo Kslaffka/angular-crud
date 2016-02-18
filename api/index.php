@@ -34,7 +34,7 @@ function addServer() {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("name", $server->name);
-		$stmt->bindParam("location", $server->first_name);
+		$stmt->bindParam("location", $server->location);
 		$stmt->bindParam("type", $server->type);
 		$stmt->bindParam("environment", $server->environment);
 		$stmt->execute();
