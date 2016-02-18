@@ -15,7 +15,26 @@ $app->post('/servers/add', 'addServer');
 $app->put('/servers/:id', 'updateServer');
 $app->delete('/servers/:id', 'deleteServer');
 
+$app->get('/locations', 'getLocations');
+
 $app->run();
+
+// ==========================
+
+function getLocations() {
+	$sql = "select * FROM locations ORDER BY id";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);  
+		$wines = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		echo json_encode($wines);
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+//===========================
 
 function getServers() {
 	$sql = "select * FROM servers ORDER BY id";

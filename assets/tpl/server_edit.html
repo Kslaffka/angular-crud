@@ -13,11 +13,14 @@
     </div>
     <div class="form-group">
       <label for="type">Type:</label>
-      <input class="form-control" type="text" ng-model="server.type" value="{{server.type}}" required />
+      <select ng-controller="ListCtrlLocations">
+        <option ng-repeat="location in locations" value={{location.id}}>{{location.location}}</option>
+      </select>
+      <!-- <input class="form-control" type="text" ng-model="server.type" value="{{server.type}}" required /> -->
     </div>
     <div class="form-group">
       <label for="environment">Environment:</label>
-      <input class="form-control" environment="text" ng-model="server.environment" value="{{server.environment}}" required />
+      <input class="form-control" type="text" ng-model="server.environment" value="{{server.environment}}" required />
     </div>    
     <button class="btn btn-primary" ng-disabled="AddNewForm.$invalid || isUnchanged(server)" id="add-new-btn" ng-click="update(server)">Update <span class="glyphicon glyphicon-floppy-disk"></span></button>
     <button class="btn btn-danger" ng-click="delete(server)">Delete <span class="glyphicon glyphicon-trash"></span></button>

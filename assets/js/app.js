@@ -17,6 +17,12 @@ function HeaderController($scope, $location)
   };
 }
 
+function ListCtrlLocations($scope, $http, $location) {
+  $http.get('api/locations').success(function(data) {
+    $scope.locations = data;
+  });
+}
+
 function ListCtrl($scope, $http, $location) {
   $http.get('api/users').success(function(data) {
     $scope.users = data;
