@@ -1,15 +1,22 @@
 angular.module('CrudApp', []).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-      when('/', {templateUrl: 'assets/tpl/lists.html', controller: ListCtrl}).
-      when('/add-user', {templateUrl: 'assets/tpl/add-new.html', controller: AddCtrl}).
-      when('/edit/:id', {templateUrl: 'assets/tpl/edit.html', controller: EditCtrl}).
-      otherwise({redirectTo: '/'});
+      when('/users', {templateUrl: 'assets/tpl/users_lists.html', controller: ListCtrl}).
+      when('/servers', {templateUrl: 'assets/tpl/servers_lists.html', controller: ListCtrlServers}).
+      when('/users/add-user', {templateUrl: 'assets/tpl/user_add-new.html', controller: AddCtrl}).
+      when('/users/edit/:id', {templateUrl: 'assets/tpl/user_edit.html', controller: EditCtrl}).
+      otherwise({redirectTo: '/users'});
 }]);
 
 function ListCtrl($scope, $http) {
   $http.get('api/users').success(function(data) {
     $scope.users = data;
+  });
+}
+
+function ListCtrlServers($scope, $http) {
+  $http.get('api/servers').success(function(data) {
+    $scope.servers = data;
   });
 }
 
