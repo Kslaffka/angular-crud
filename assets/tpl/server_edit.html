@@ -1,0 +1,27 @@
+<h2>Edit server</h2>
+<div class="row">
+  <div class="col-md-6">
+  <form novalidate ng-repeat="server in servers" name="AddNewForm" id="add-new-form" method="post" action="">
+    <input type="hidden" ng-model="server.id" value="{{server.id}}" />
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input class="form-control" type="text" ng-model="server.name" value="{{server.name}}" required />
+    </div>
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <input class="form-control" type="text" ng-model="server.location" value="{{server.location}}" required />
+    </div>
+    <div class="form-group">
+      <label for="type">Type:</label>
+      <input class="form-control" type="text" ng-model="server.type" value="{{server.type}}" required />
+    </div>
+    <div class="form-group">
+      <label for="environment">Environment:</label>
+      <input class="form-control" environment="text" ng-model="server.environment" value="{{server.environment}}" required />
+    </div>    
+    <button class="btn btn-primary" ng-disabled="AddNewForm.$invalid || isUnchanged(server)" id="add-new-btn" ng-click="update(server)">Update <span class="glyphicon glyphicon-floppy-disk"></span></button>
+    <button class="btn btn-danger" ng-click="delete(server)">Delete <span class="glyphicon glyphicon-trash"></span></button>
+    <a href="#/servers/" class="btn">Cancel</a>
+  </form>
+</div>
+</div>

@@ -8,8 +8,12 @@ $app->get('/users/:id', 'getUser');
 $app->post('/users/add', 'addUser');
 $app->put('/users/:id', 'updateUser');
 $app->delete('/users/:id', 'deleteUser');
+
 $app->get('/servers', 'getServers');
+$app->get('/servers/:id', 'getServer');
 $app->post('/servers/add', 'addServer');
+$app->put('/servers/:id', 'updateServer');
+$app->delete('/servers/:id', 'deleteServer');
 
 $app->run();
 
@@ -41,6 +45,52 @@ function addServer() {
 		$server->id = $db->lastInsertId();
 		$db = null;
 		echo json_encode($server); 
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+function getServer($id) {
+	$sql = "select * FROM servers WHERE id=".$id." ORDER BY id";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);  
+		$wines = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		echo json_encode($wines);
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+function updateServer($id) {
+	$request = \Slim\Slim::getInstance()->request();
+	$server = json_decode($request->getBody());
+	$sql = "UPDATE servers SET name=:name, location=:location, type=:type, environment=:environment WHERE id=:id";
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+		$stmt->bindParam("name", $server->name);
+		$stmt->bindParam("location", $server->location);
+		$stmt->bindParam("type", $server->type);
+		$stmt->bindParam("environment", $server->environment);
+		$stmt->bindParam("id", $id);
+		$stmt->execute();
+		$db = null;
+		echo json_encode($server); 
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+function deleteServer($id) {
+	$sql = "DELETE FROM servers WHERE id=".$id;
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);  
+		$wines = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		echo json_encode($wines);
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}

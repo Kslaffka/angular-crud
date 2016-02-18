@@ -6,6 +6,7 @@ angular.module('CrudApp', []).
       when('/users/add', {templateUrl: 'assets/tpl/user_add-new.html', controller: AddCtrl}).
       when('/servers/add', {templateUrl: 'assets/tpl/server_add-new.html', controller: AddCtrlServer}).
       when('/users/edit/:id', {templateUrl: 'assets/tpl/user_edit.html', controller: EditCtrl}).
+      when('/servers/edit/:id', {templateUrl: 'assets/tpl/server_edit.html', controller: EditCtrlServer}).
       otherwise({redirectTo: '/users'});
 }]);
 
@@ -79,7 +80,7 @@ function EditCtrl($scope, $http, $location, $routeParams) {
   $scope.update = function(user){
     $http.put('api/users/'+id, user).success(function(data) {
       $scope.users = data;
-      $scope.activePath = $location.path('/');
+      $scope.activePath = $location.path('/users');
     });
   };
 
@@ -88,7 +89,32 @@ function EditCtrl($scope, $http, $location, $routeParams) {
     var deleteUser = confirm('Are you absolutely sure you want to delete?');
     if (deleteUser) {
       $http.delete('api/users/'+user.id);
-      $scope.activePath = $location.path('/');
+      $scope.activePath = $location.path('/users');
+    }
+  };
+}
+
+function EditCtrlServer($scope, $http, $location, $routeParams) {
+  var id = $routeParams.id;
+  $scope.activePath = null;
+
+  $http.get('api/servers/'+id).success(function(data) {
+    $scope.servers = data;
+  });
+
+  $scope.update = function(server){
+    $http.put('api/servers/'+id, server).success(function(data) {
+      $scope.servers = data;
+      $scope.activePath = $location.path('/servers');
+    });
+  };
+
+  $scope.delete = function(server) {
+
+    var deleteServer = confirm('Are you absolutely sure you want to delete?');
+    if (deleteDerver) {
+      $http.delete('api/servers/'+server.id);
+      $scope.activePath = $location.path('/servers');
     }
   };
 }
