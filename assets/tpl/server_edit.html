@@ -9,14 +9,18 @@
     </div>
     <div class="form-group">
       <label for="location">Location:</label>
-      <input class="form-control" type="text" ng-model="server.location" value="{{server.location}}" required />
+
+      <select ng-controller="ListCtrlLocations" ng-model="server.location">
+        <option ng-model="location.id" ng-selected="{{obj.value == server.location}}" ng-repeat="location in locations" value={{location.id}}>{{location.location}}</option>
+      </select>
+
+      <!-- <select ng-controller="ListCtrlLocations" ng-options="location.location for location in locations" ng-model="server.location"></select> -->
+
+      <!-- <input class="form-control" type="text" ng-model="server.location" value="{{server.location}}" required /> -->
     </div>
     <div class="form-group">
       <label for="type">Type:</label>
-      <select ng-controller="ListCtrlLocations">
-        <option ng-repeat="location in locations" value={{location.id}}>{{location.location}}</option>
-      </select>
-      <!-- <input class="form-control" type="text" ng-model="server.type" value="{{server.type}}" required /> -->
+      <input class="form-control" type="text" ng-model="server.type" value="{{server.type}}" required />
     </div>
     <div class="form-group">
       <label for="environment">Environment:</label>

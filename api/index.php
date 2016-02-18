@@ -37,7 +37,7 @@ function getLocations() {
 //===========================
 
 function getServers() {
-	$sql = "select * FROM servers ORDER BY id";
+	$sql = "select servers.id, servers.name, servers.type, servers.environment, locations.location FROM servers, locations WHERE servers.location=locations.id ORDER BY servers.id ";
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
