@@ -112,7 +112,7 @@ function EditCtrlServer($scope, $http, $location, $routeParams) {
   $scope.delete = function(server) {
 
     var deleteServer = confirm('Are you absolutely sure you want to delete?');
-    if (deleteDerver) {
+    if (deleteServer) {
       $http.delete('api/servers/'+server.id);
       $scope.activePath = $location.path('/servers');
     }
